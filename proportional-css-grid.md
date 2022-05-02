@@ -466,10 +466,6 @@ h5 {
   font-size: calc(var(--font-unit) * 0.2);
   margin: 0;
 }
-h6 {
-  font-size: var(--font-unit);
-  margin: 0;
-}
 ```
 
 And we have
