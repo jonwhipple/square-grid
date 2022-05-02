@@ -43,43 +43,7 @@ The HTML is simple (if repetitive; we're going to want a bunch of tiles to exper
         <div class="tile">tile</div>
         <div class="tile">tile</div>
         <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">rect</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
+        <1-- insert many more here… -->
         <div class="tile">tile</div>
         <div class="tile">tile</div> 
         <div class="tile">tile</div> 
@@ -563,18 +527,6 @@ I really don't know if this breaks and what factors make it break, other than us
 ### Optimizations (but not too much or many)
 
 There might be simplifications here that make the technique more amenable to assembling a framework or design system, such as setting more variables and accomplishing more with `calc()` but I never want to be confused by what's going on.
-
-## Join in
-
-I started a GitHub repo[[LINK]] for this project, so feel free to use the usual tools to send in improvements or give advice.
-
-I say this like I know what's going on, but I'm a graphic designer
-
-[[GIF of graphic designer meme]]
-
-not a software developer
-
-[[GIF of IM A DOCTOR NOT A… meme]]
 
 ## Dare we dream?
 
