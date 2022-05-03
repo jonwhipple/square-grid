@@ -59,10 +59,14 @@
             /* Set the gap for both columns and rows */ 
             /* If we set `gap: (var(--gap-unit);`  the --gap-unit is removed from each grid space (12 times in our example) */
             /* This means we end up with what appears to be an extra column gap at then right side of the layout (assuming rtl layout) */
-            /* This is NOT a column gap. it is our `.layout` element 1/12 to narrow across the entire width */
-/*             gap: calc(var(--gap-unit) * 1.09 ); */
-            
-            
+            /* This is NOT a column gap, it is our calculated column grid in the `.layout` element being 1/12 of a grid space too narrow across the entire width of the viewport */
+            /* We don't want to adjust a single gap in the layout to compensate because we want to maintain a regular and consistent grid of tiles and gaps */
+            /* Therefore we need to adjust all of the gap sizes by making them _slightly_ wider until the `.layout` div occupies the full width of the viewport without exceeding it and triggering horizontal scrollbars */
+            /* Naively setting `gap: calc(var(--gap-unit) * 1.1);` is too much and 1.0 will have no effect/ The asnwer lies in between zero and 1 */
+            /* Trail and error results in: */
+            gap: calc(var(--gap-unit) * 1.09);
+            /* I am sure there is a math and rounding relationship here but I do not know what it is */
+            /* IMPORTANT: The multiplier needs to be changed depending on the number of columns you choose and the value of --gap-divisor */
 
             /* ENFORCE SQUARENESS by setting the aspect ratio of block elements within the .layout div */
             aspect-ratio: 1 / 1;
