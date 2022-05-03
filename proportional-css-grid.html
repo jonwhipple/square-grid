@@ -50,14 +50,19 @@
             /* We're making a grid layout out so the obvious */
             display: grid;
 
-            /* Set columns - our layout is 12 columns wide - and subtract the gap-unit from each column*/
+            /* Set columns - our layout is 12 columns wide - and subtract the --gap-unit from each column*/
             grid-template-columns: repeat(12, calc(var(--base-unit) - var(--gap-unit)));
 
             /* Set the rows to be the same height as the column-width */
             grid-auto-rows: calc(var(--base-unit) - var(--gap-unit));
 
-            /* Set the gap for both columns and rows and multiply that measure to compensate for the way math works. */
-            gap: calc(var(--gap-unit) * 1.09 );
+            /* Set the gap for both columns and rows */ 
+            /* If we set `gap: (var(--gap-unit);`  the --gap-unit is removed from each grid space (12 times in our example) */
+            /* This means we end up with what appears to be an extra column gap at then right side of the layout (assuming rtl layout) */
+            /* This is NOT a column gap. it is our `.layout` element 1/12 to narrow across the entire width */
+/*             gap: calc(var(--gap-unit) * 1.09 ); */
+            
+            
 
             /* ENFORCE SQUARENESS by setting the aspect ratio of block elements within the .layout div */
             aspect-ratio: 1 / 1;
