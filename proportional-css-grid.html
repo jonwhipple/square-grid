@@ -7,19 +7,12 @@
     <style>
         :root {
             --number-of-columns: 12;  /* 12 */
-            
             --number-of-column-gaps: calc(var(--number-of-columns) - 1); /* 11 */
-        
             --gap-ratio-unit: calc(var(--number-of-columns) / var(--number-of-column-gaps)); /* 12 / 11 = 1.09 */
-
             --base-unit: calc(100% / var(--number-of-columns)); /* 100% / 12 = 8.33333% */
-            
             --gap-unit: calc(var(--base-unit) / 10); /* This is set in relation to the base-unit so it is proportional. 1/10 of the --base-unit for our example. 8.33333 / 10 =  .833333 */
-            
-            --column-width: calc(var(--base-unit) - var(--gap-unit)); /* Set the width of a column to be the base unit minu the width of a gap unit. This will equal 100% of the layout - 1 gap-unit */
-
-            --row-height: var(--column-width);
-
+            --column-width: calc(var(--base-unit) - var(--gap-unit)); /* Set the width of a column to be the base unit minus the width of a gap unit. This will equal 100% of the layout - 1 gap-unit which we'll deal with when we set the gap property in the grid below */
+            --row-height: var(--column-width); /* the height of a row is equal to the width of the column */
         }
 
         /* Add some color to the <html> element to help us visualize. We don't want to set any dimensions or anything here. */
@@ -40,8 +33,8 @@
             display: grid;
             grid-template-columns: repeat(var(--number-of-columns), var(--column-width));
             grid-auto-rows: var(--row-height);
-            gap: calc(var(--gap-unit) * var(--gap-ratio-unit));
-            aspect-ratio: 1 / 1;
+            gap: calc(var(--gap-unit) * var(--gap-ratio-unit)); /* Distribute the width of a the "extra" gap across all the existing gaps */
+            aspect-ratio: 1 / 1; /* Push the resulting grid squares to be 1:1 Square */
         }
         
         .tile {
