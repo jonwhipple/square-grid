@@ -9,11 +9,11 @@
           /* Set this value to the number of columns you desire for your layout  */
           --number-of-columns: 12;
 
-          /* --gap-unit value is OPTIONAL; higher numbers = smaller gaps */
-          --gap-unit: calc(var(--base-unit) / 10);
+          /* --base-unit-divisor value is OPTIONAL; higher numbers = smaller gaps; must be a value greater than 1 */
+          --base-unit-divisor: 10;
 
-          /* NO OTHER VALUES NEED TO BE SET */
-
+          /* NO OTHER VALUES NEED TO BE SET; everything is calculated from these units */
+          --gap-unit: calc(var(--base-unit) / var(--base-unit-divisor));  
           --number-of-column-gaps: calc(var(--number-of-columns) - 1);
           --gap-ratio-unit: calc(var(--number-of-columns) / var(--number-of-column-gaps));
           --base-unit: calc(100% / var(--number-of-columns));
