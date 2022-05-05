@@ -3,29 +3,23 @@
     <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8" />
-    <title>tiles</title>
+    <title>MATH</title>
     <style>
         :root {
-        /* Defining custom properties here in :root for highest specificity and to ensure access if things like SVG or XML need access to this custom properties */
+            --number-of-columns: 12;  /* 12 */
+            
+            --number-of-column-gaps: calc(var(--number-of-columns) - 1); /* 11 */
         
-        /* Set the number of columns for the layout. This will get used when we set the base unit measure */
-        /* An integer greater than 1. CAN 1 BE USED? WHAT HAPPENS? */
-        --number-of-columns: 12;
+            --gap-ratio-unit: calc(var(--number-of-columns) / var(--number-of-column-gaps)); /* 12 / 11 = 1.09 */
 
-        /* Set the "base" measure for the layout. Divide 100% of the layout by the number of columns. */
-        --base-unit: calc(100% / var(--number-of-columns));
+            --base-unit: calc(100% / var(--number-of-columns)); /* 100% / 12 = 8.33333% */
+            
+            --gap-unit: calc(var(--base-unit) / 10); /* This is set in relation to the base-unit so it is proportional. 1/10 of the --base-unit for our example. 8.33333 / 10 =  .833333 */
+            
+            --column-width: calc(var(--base-unit) - var(--gap-unit)); /* Set the width of a column to be the base unit minu the width of a gap unit. This will equal 100% of the layout - 1 gap-unit */
 
-        /* Set the divisor for calculating gap measures in the layout. This is NOT the gap size itself. Instead this sets the way layout compensation works when the grid is calculated to include gaps. */
-        /* An integer of one or more. Default: 10 This will be 1/10 the width of the layout's bease measure. */
-        /* I THINK THIS COULD BE ANY POSITIVE INTEGER BUT THERE IS PROBABLY A LIMIT THAT CAN BE REPRESENTED BY A PIXEL OR DRAWN INTO AVAILABLE SPACE */
-        --gap-divisor: 10;
+            --row-height: var(--column-width);
 
-        /* Set the base measure of the gap for the grid layout. Divide the base unit by the gap divisor*/
-        --gap-unit: calc(var(--base-unit) / var(--gap-divisor) );
-
-        /* Set the base measure for handling typography */
-        --font-unit: calc(100vw / 12);
-        /* --font-unit: var(--base-unit); */
         }
 
         /* Add some color to the <html> element to help us visualize. We don't want to set any dimensions or anything here. */
@@ -38,154 +32,26 @@
             /* Edge-to-edge layout. */
             margin: 0;
             background-color: lightcyan;
-
-            /* Explicitly declare the width of <body> using the base unit multiplied by number of columns in the layout. */
-            /* width: calc(var(--base-unit) * 12) */
         }
 
         .layout {
-            /* For visualization */
             background-color: grey;
 
-            /* We're making a grid layout out so the obvious */
             display: grid;
-
-            /* Set columns - our layout is 12 columns wide - and subtract the --gap-unit from each column*/
-            grid-template-columns: repeat(12, calc(var(--base-unit) - var(--gap-unit)));
-
-            /* Set the rows to be the same height as the column-width */
-            grid-auto-rows: calc(var(--base-unit) - var(--gap-unit));
-
-            /* Set the gap for both columns and rows */ 
-            /* If we set `gap: (var(--gap-unit);`  the --gap-unit is removed from each grid space (12 times in our example) */
-            /* This means we end up with what appears to be an extra column gap at then right side of the layout (assuming rtl layout) */
-            /* This is NOT a column gap, it is our calculated column grid in the `.layout` element being 1/12 of a grid space too narrow across the entire width of the viewport */
-            /* We don't want to adjust a single gap in the layout to compensate because we want to maintain a regular and consistent grid of tiles and gaps */
-            /* Therefore we need to adjust all of the gap sizes by making them _slightly_ wider until the `.layout` div occupies the full width of the viewport without exceeding it and triggering horizontal scrollbars */
-            /* Naively setting `gap: calc(var(--gap-unit) * 1.1);` is too much and 1.0 will have no effect/ The asnwer lies in between zero and 1 */
-            /* Trail and error results in: */
-            gap: calc(var(--gap-unit) * 1.09);
-            /* I am sure there is a math and rounding relationship here but I do not know what it is */
-            /* IMPORTANT: The multiplier needs to be changed depending on the number of columns you choose and the value of --gap-divisor */
-
-            /* ENFORCE SQUARENESS by setting the aspect ratio of block elements within the .layout div */
+            grid-template-columns: repeat(var(--number-of-columns), var(--column-width));
+            grid-auto-rows: var(--row-height);
+            gap: calc(var(--gap-unit) * var(--gap-ratio-unit));
             aspect-ratio: 1 / 1;
         }
         
         .tile {
             background-color: tan;
         }
-
-        /* 1 Unit High */
-        .tile-1-1 {
-            background-color: lightpink;
-        }
-        .tile-2-1 {
-            grid-column: span 2;
-            /* grid-row: span 1; */
-            background-color: lightpink;
-        }
-        .tile-3-1 {
-            grid-column: span 3;
-            /* grid-row: span 1; */
-            background-color: lightpink;
-        }
-        .tile-4-1 {
-            grid-column: span 4;
-            /* grid-row: span 1; */
-            background-color: lightpink;
-        }
-
-        /* 2 Units High */
-        .tile-1-2 {
-            grid-column: span 1;
-            grid-row: span 2;
-            background-color: lightgreen;
-        }
-        .tile-2-2 {
-            grid-column: span 2;
-            grid-row: span 2;
-            background-color: lightgreen;
-        }
-        .tile-3-2 {
-            grid-column: span 3;
-            grid-row: span 2;
-            background-color: lightgreen;
-        }
-        .tile-4-2 {
-            grid-column: span 4;
-            grid-row: span 2;
-            background-color: lightgreen;
-        }
-
-        /* 3 Units High */
-        .tile-1-3 {
-            grid-column: span 1;
-            grid-row: span 3;
-            background-color: lightblue;
-        }
-        .tile-2-3 {
-            grid-column: span 2;
-            grid-row: span 3;
-            background-color: lightblue;
-        }
-        .tile-3-3 {
-            grid-column: span 3;
-            grid-row: span 3;
-            background-color: lightblue;
-        }
-        .tile-4-3 {
-            grid-column: span 4;
-            grid-row: span 3;
-            background-color: lightblue;
-        }
-        h1 {
-            font-size: var(--font-unit);
-            margin: 0;
-        }
-        h2 {
-            font-size: calc(var(--font-unit) * 0.8);
-            margin: 0;
-        }
-        h3 {
-            font-size: calc(var(--font-unit) * 0.6);
-            margin: 0;
-        }
-        h4 {
-            font-size: calc(var(--font-unit) * 0.4);
-            margin: 0;
-        }
-        h5 {
-            font-size: calc(var(--font-unit) * 0.2);
-            margin: 0;
-        }
-        /* h6 {
-            font-size: var(--font-unit);
-            margin: 0;
-        } */
-        </style>
+    </style>
 </head>
 <body>
     <div class="layout">
         <div class="tile">tile</div>
-        <div class="tile tile-1-1">tile</div>
-        <div class="tile tile-2-1">tile</div>
-        <div class="tile tile-3-1">tile</div>
-        <div class="tile tile-4-1">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile tile-1-2">rect</div>
-        <div class="tile tile-2-2">tile</div>
-        <div class="tile tile-3-2"><h1>tile</h1></div>
-        <div class="tile tile-4-2"><h2>tile</h2></div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile tile-1-3">tile</div>
-        <div class="tile tile-2-3"><h3>tile</h3></div>
-        <div class="tile tile-3-3"><h4>tile</h4></div>
-        <div class="tile tile-4-3"><h5>tile</h5></div>
         <div class="tile">tile</div>
         <div class="tile">tile</div>
         <div class="tile">tile</div>
@@ -208,7 +74,25 @@
         <div class="tile">tile</div>
         <div class="tile">tile</div>
         <div class="tile">tile</div>
-        <div class="tile">tile</div> 
-        <div class="tile tile-2-6">rect</div> 
+        <div class="tile">tile</div>
+        <div class="tile">tile</div>
+        <div class="tile">tile</div>
+        <div class="tile">tile</div>
+        <div class="tile">tile</div>
+        <div class="tile">tile</div>
+        <div class="tile">tile</div>
+        <div class="tile">tile</div>
+        <div class="tile">tile</div>
+        <div class="tile">tile</div>
+        <div class="tile">tile</div>
+        <div class="tile">tile</div>
+        <div class="tile">tile</div>
+        <div class="tile">tile</div>
+        <div class="tile">tile</div>
+        <div class="tile">tile</div>
+        <div class="tile">tile</div>
+        <div class="tile">tile</div>
+        <div class="tile">tile</div>
+        <div class="tile">tile</div>
     </div>
 </body>
