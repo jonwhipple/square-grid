@@ -5,83 +5,109 @@
     <meta charset="utf-8" />
     <title>Proportional Square Grid</title>
     <style>
-        :root {
-          /* Set this value to the number of columns you desire for your layout; must be an integer and conform to normal grid layout rules */
-          --number-of-columns: 12;
+       :root {
+          /* Set this value to the number of columns you desire for your layout; must be an integer */
+          --number-of-columns: 15;
 
-          /* --base-unit-divisor value is OPTIONAL; higher numbers = smaller gaps; must be a value greater than 1 */
-          --base-unit-divisor: 10;
-
-          /* NO OTHER VALUES NEED TO BE SET; everything is calculated from these units */
-          --gap-unit: calc(var(--base-unit) / var(--base-unit-divisor));  
+          /* The number of gaps is 1 less than the number of columns */
           --number-of-column-gaps: calc(var(--number-of-columns) - 1);
-          --gap-ratio-unit: calc(var(--number-of-columns) / var(--number-of-column-gaps));
-          --base-unit: calc(100% / var(--number-of-columns));
-          --column-width: calc(var(--base-unit) - var(--gap-unit)); 
-          --row-height: var(--column-width);
+
+          /* Base unit is an number that represents the total viewport width divided by the number of columns */
+          --base-unit: calc(100 / var(--number-of-columns));
+
+          /* Multiply a number value by 1% or add a 0 measure to convert the number into a unit value: calc(var(--base-unit) * 1%) will convert 8.3 into 8.3% */
+          --original-column-width: calc(var(--base-unit) * 1%);
+
+          /* If we want to set gaps let's declare a gap value */
+          --layout-gap: 1rem;
+
+          /* At this point, things break because the cells exceed the width of the viewport by the width equivalent 1 column and 1 gap */
+
+          /* We need to subtract that width from the values across the entire layout */
+          --first-naive-column-width: calc(var(--original-column-width) - var(--layout-gap));
+          /* ALMOST but now 1 gap width too narrow */
+
+          /* Add width to each column from each of the layout gaps */
+          /* What is 1 out of var(--number-of-column-gaps) of a gap? Get this value and add to each column */
+          --fraction-of-a-gap: calc(var(--layout-gap) / var(--number-of-columns));
+          --column-width: calc((var(--original-column-width) - var(--layout-gap)) + var(--fraction-of-a-gap));
         }
 
         body {
           margin: 0;
+          background-color: pink;
         }
 
         .layout {
-            display: grid;
-            grid-template-columns: repeat(var(--number-of-columns), var(--column-width));
-            grid-auto-rows: var(--row-height);
-            gap: calc(var(--gap-unit) * var(--gap-ratio-unit));
-            aspect-ratio: 1 / 1;
+          display: grid;
+          grid-template-columns: repeat(var(--number-of-columns), var(--column-width));
+          grid-auto-rows: var(--column-width);
+          gap: var(--layout-gap);
+
+          background-color: lightblue;
         }
 
         .tile {
-            background-color: tan;
+          background-color: tan;
+          aspect-ratio: 1 / 1;
+        }
+
+        .tile-2-2 {
+          grid-column: span 2;
+          grid-row: span 2;
+        }
+
+        .tile-4-3 {
+          grid-column: span 4;
+          grid-row: span 2;
+          aspect-ratio: 0 / 0;
         }
     </style>
 </head>
 <body>
-    <div class="layout">
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-        <div class="tile">tile</div>
-    </div>
+     <div class="layout">
+  <div class="tile">tile 1</div>
+  <div class="tile tile-2-2">tile 2</div>
+  <div class="tile tile-3-3">tile 3</div>
+  <div class="tile">tile 4</div>
+  <div class="tile">tile 5</div>
+  <div class="tile">tile 6</div>
+  <div class="tile">tile 7</div>
+  <div class="tile">tile 8</div>
+  <div class="tile">tile 9</div>
+  <div class="tile">tile 10</div>
+  <div class="tile">tile 11</div>
+  <div class="tile">tile 12</div>
+  <div class="tile">tile 13</div>
+  <div class="tile">tile 14</div>
+  <div class="tile">tile 15</div>
+  <div class="tile">tile 16</div>
+  <div class="tile">tile 17</div>
+  <div class="tile">tile 18</div>
+  <div class="tile">tile 19</div>
+  <div class="tile">tile 20</div>
+  <div class="tile">tile 21</div>
+  <div class="tile">tile 22</div>
+  <div class="tile">tile 23</div>
+  <div class="tile">tile 24</div>
+  <div class="tile">tile 25</div>
+  <div class="tile">tile 26</div>
+  <div class="tile">tile 27</div>
+  <div class="tile">tile 28</div>
+  <div class="tile">tile 29</div>
+  <div class="tile">tile 30</div>
+  <div class="tile">tile 31</div>
+  <div class="tile tile-4-3">tile 32</div>
+  <div class="tile">tile 33</div>
+  <div class="tile">tile 34</div>
+  <div class="tile">tile 35</div>
+  <div class="tile">tile 36</div>
+  <div class="tile">tile 37</div>
+  <div class="tile">tile 38</div>
+  <div class="tile">tile 39</div>
+  <div class="tile">tile 40</div>
+  <div class="tile">tile 41</div>
+  <div class="tile">tile 42</div>
+  <div class="tile">tile 43</div>
+</div>
 </body>
